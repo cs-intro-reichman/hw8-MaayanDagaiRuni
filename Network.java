@@ -102,7 +102,7 @@ public class Network {
             return null;
         }
         User popularUser = users[0];
-        int maxFollowers = 0;
+        int maxFollowers = followeeCount(popularUser.getName());
 
         for(int i =0; i<userCount;i++){
             int currentFollowerCount = followeeCount(users[i].getName());
@@ -120,10 +120,9 @@ public class Network {
     /** Returns the number of times that the given name appears in the follows lists of all
      *  the users in this network. Note: A name can appear 0 or 1 times in each list. */
     private int followeeCount(String name) {
-        User currentUser = users[0];
         int count = 0;
         for(int i = 0; i<userCount; i++){
-            if(currentUser.follows(name)){
+            if(users[i].follows(name)){
                 count++;
             }
         }
