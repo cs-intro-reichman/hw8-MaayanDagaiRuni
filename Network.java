@@ -56,6 +56,8 @@ public class Network {
      *  If any of the two names is not a user in this network,
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
+        if (name1 == null || name2 == null || name1.equalsIgnoreCase(name2)) {
+        return false;
         User user1 = getUser(name1);
         User user2 = getUser(name2);
 
@@ -72,6 +74,8 @@ public class Network {
     public String recommendWhoToFollow(String name) {
         User giver = getUser(name);
         User mostRecommendedUserToFollow = null;
+        int maxmutual = -1;
+
         for( int i =0; i < userCount;i++){
             User candidate = users[i];
             if(candidate.getName().equals(name)){
@@ -79,7 +83,13 @@ public class Network {
             }
             if (giver.follows(candidate.getName())){
                 continue; 
-            }            
+            }      
+            int currentmutual = giver.countMutual(candidate);
+            
+            if ( currentmutual > maxmutual){
+                maxmutual = currentmutual;
+                mostRecommendedUserToFollow = candidate;
+            }
         }
         return mostRecommendedUserToFollow.getName();
     }
@@ -91,14 +101,15 @@ public class Network {
             return null;
         }
         User popularUser = users[0];
-        int maxFollowers = -1;
+        int maxFollowers = 0;
 
         for(int i =0; i<userCount;i++){
             int currentFollowerCount = followeeCount(users[i].getName());
             if(currentFollowerCount > maxFollowers){
                 maxFollowers = currentFollowerCount;
                 popularUser = users[i];
-            }
+                }
+            
 
             }
 
