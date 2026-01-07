@@ -58,6 +58,7 @@ public class Network {
     public boolean addFollowee(String name1, String name2) {
         if (name1 == null || name2 == null || name1.equalsIgnoreCase(name2)) {
         return false;
+        }
         User user1 = getUser(name1);
         User user2 = getUser(name2);
 
